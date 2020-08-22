@@ -68,6 +68,14 @@ public class Database extends SQLiteOpenHelper {
         return cursor;
 
     }
+    void UpdateData(String name, String phone, String avatar){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "UPDATE " + TABLE_NAME + " SET Phone= '" + phone
+                +"', Avatar = '"+ avatar + "' Where Name = '" + name + "'";
+        db.execSQL(query);
+
+
+    }
     Cursor readAllData(){
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();

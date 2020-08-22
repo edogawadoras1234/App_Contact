@@ -57,7 +57,6 @@ public class danhsach extends AppCompatActivity{
         //Tạo đường gạch chân giữa các row
         DividerItemDecoration deviderItemDecoration = new DividerItemDecoration(this,layoutManager.getOrientation());
         recyclerView.addItemDecoration(deviderItemDecoration);
-
         swiptorefresh();
         Dexter.withActivity(this)
                 .withPermission(READ_CONTACTS)
@@ -93,7 +92,6 @@ public class danhsach extends AppCompatActivity{
             contactList.add(contact);
         }
 
-
         contactAdapter = new ContactAdapter(this, contactList);
         recyclerView.setAdapter(contactAdapter);
         contactAdapter.notifyDataSetChanged();
@@ -114,7 +112,6 @@ public class danhsach extends AppCompatActivity{
         }
 
         contactAdapter = new ContactAdapter(this, contactList);
-        recyclerView.setAdapter(contactAdapter);
         contactAdapter.notifyDataSetChanged();
     }
 
@@ -125,11 +122,7 @@ public class danhsach extends AppCompatActivity{
             public void onRefresh() {
                 final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
                 Toast.makeText(danhsach.this, "Refresh", Toast.LENGTH_SHORT).show();
-                //load lai database
-                //reload();
-                //set lai adapter sau khi reset
-                recyclerView.setAdapter(contactAdapter);
-                contactAdapter.notifyDataSetChanged();
+
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -138,27 +131,6 @@ public class danhsach extends AppCompatActivity{
         Collections.sort(contactList);
         contactAdapter.notifyDataSetChanged();
     }
-
-    //load lai du lieu tu database len
-//    public void reload(){
-//        database = new Database(danhsach.this);
-//        arrname = new ArrayList<>();
-//        arrphone = new ArrayList<>();
-//        arravatar = new ArrayList<>();
-//        Cursor cursor = database.readAllData();
-//        if (cursor.getCount() == 0){
-//            Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
-//        } else {
-//            while (cursor.moveToNext()){
-//                arrname.add(cursor.getString(0));
-//                arrphone.add(cursor.getString(1));
-//                arravatar.add(cursor.getString(2));
-//                phoneAdapter = new PhoneAdapter(this, arrname, arrphone, arravatar);
-//                phoneAdapter.notifyDataSetChanged();
-//            }
-//        }
-//
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -172,12 +144,10 @@ public class danhsach extends AppCompatActivity{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.itemadd:
-                Intent intent = new Intent(this,add_phone_number.class);
-                startActivity(intent);
-                Toast.makeText(this, "Choose Item Add", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Không thêm vào danh sách này", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.itemsua:
-                Toast.makeText(this, "Choose Item Change", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Không sửa vào danh sách này", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.itemthoat:
                 System.exit(1);

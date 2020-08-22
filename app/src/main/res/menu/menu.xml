@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 <item android:id="@+id/itemadd"
-    android:title="Them"
+    android:title="Thêm"
     app:showAsAction="never"/>
 
     <item android:id="@+id/itemsua"
-        android:title="Sua"
+        android:title="Sửa"
         app:showAsAction="never"/>
     <item android:id="@+id/itemthoat"
         android:title="Thoát"

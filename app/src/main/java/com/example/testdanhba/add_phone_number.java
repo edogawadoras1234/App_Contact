@@ -16,8 +16,6 @@ public class add_phone_number extends AppCompatActivity implements View.OnClickL
     EditText edtname, edtphone, edtavatar;
     Database database;
     ContentValues val = new ContentValues();
-    private danhsach context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,21 +27,29 @@ public class add_phone_number extends AppCompatActivity implements View.OnClickL
         btnadd = findViewById(R.id.btnadd);
         btncancle = findViewById(R.id.btncancle);
         btnadd.setOnClickListener(this);
-
-        getSupportActionBar().setTitle("Add Danh Ba");
+        btncancle.setOnClickListener(this);
+        getSupportActionBar().setTitle("Thêm Danh Ba");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
     public void onClick(View view) {
+        if(view.getId() == R.id.btnadd){
         database = new Database(this);
-        if(edtname.length()==0 || edtphone.length()==0 || edtavatar.length() == 0) {
-            Toast.makeText(this, "Fill Text", Toast.LENGTH_SHORT).show();
+        if(edtname.length()==0 && edtphone.length()==0) {
+            Toast.makeText(this, "Xin hãy nhập tên và số điện thoại", Toast.LENGTH_SHORT).show();
+        }
+        else if (edtname.length()==0 || edtphone.length()==0) {
+            Toast.makeText(this, "Không được bỏ trống Tên hoặc số điện thoại", Toast.LENGTH_SHORT).show();
         }
         else {
             database.addData(edtname.getText().toString(), edtphone.getText().toString(), edtavatar.getText().toString());
             database.readAllData();
             Toast.makeText(this, "Add Success", Toast.LENGTH_SHORT).show();
+        }
+        }else if (view.getId() == R.id.btncancle){
+            System.exit(1);
         }
     }
 }
