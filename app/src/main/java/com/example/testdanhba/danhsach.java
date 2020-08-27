@@ -59,6 +59,7 @@ public class danhsach extends AppCompatActivity implements DanhBaCLickInterfact 
         swiptorefresh();
 
         new ItemTouchHelper(itemtouchhelper).attachToRecyclerView(recyclerView);
+
         Dexter.withActivity(this)
                 .withPermission(READ_CONTACTS)
                 .withListener(new PermissionListener() {
@@ -82,23 +83,38 @@ public class danhsach extends AppCompatActivity implements DanhBaCLickInterfact 
                 }).check();
         loaddata();
     }
-    ArrayList caigido;
+    ItemTouchHelper.SimpleCallback itemtouchhelper = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            database = new Database(danhsach.this);
+            Toast.makeText(danhsach.this, "Delete Success: " + contactList.get(viewHolder.getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
+            database.DeleteData(contactList.get(viewHolder.getAdapterPosition()).getId());
+            remove(viewHolder.getAdapterPosition());
+        }
+    };
+    public void remove(int pos) {
+        contactList.remove(pos);
+        contactAdapter.notifyItemRemoved(pos);
+    }
     public void loaddata() {
         danhBaCLickInterfact = new DanhBaCLickInterfact() {
             @Override
             public void onItemClick(int position) {
-               // DialogSua();
+
             }
         };
         database = new Database(danhsach.this);
         contactList = new ArrayList<>();
-        caigido = new ArrayList<>();
         Cursor cursor = database.readAllData();
         if (cursor.getCount() == 0) {
             Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
-                caigido.add(cursor.getString(0));
                 Contact contact = new Contact(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3));
                 contactList.add(contact);
             }
@@ -202,31 +218,9 @@ public class danhsach extends AppCompatActivity implements DanhBaCLickInterfact 
         builder.show();
     }
 
-    public void DialogSua() {
-
-
-    }
-
-    public void remove(int position) {
-        contactList.remove(position);
-        contactAdapter.notifyItemRemoved(position);
-    }
-    ItemTouchHelper.SimpleCallback itemtouchhelper = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-            return false;
-        }
-
-        @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            database = new Database(danhsach.this);
-            Toast.makeText(danhsach.this, "Delete Success: ", Toast.LENGTH_SHORT).show();
-            //database.DeleteData();
-           // remove(viewHolder.getAdapterPosition());
-        }
-    };
+    Integer it;
     @Override
     public void onItemClick(int position) {
-
+        it = position;
     }
 }

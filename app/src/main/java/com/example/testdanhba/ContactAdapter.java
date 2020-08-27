@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> implements Filterable {
+
     danhsach context;
     List<Contact> contactList;
     List<Contact> contactListfull;
@@ -114,6 +116,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         }
     };
 
+
     public class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView edtten, edtsdt;
         ImageView photo;
@@ -132,7 +135,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         @Override
         public void onClick(View view) {
             database = new Database(context);
-            int position = getAdapterPosition();
+            final int position = getAdapterPosition();
             danhBaCLickInterfact.onItemClick(position);
             final Dialog dialog = new Dialog(context);
             dialog.setContentView(R.layout.dialog_edit_phone);
@@ -142,9 +145,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             edtphone = dialog.findViewById(R.id.editPhone_dialog);
             edtavatar = dialog.findViewById(R.id.editAvatar_dialog);
             final String id = contactList.get(position).getId();
-            String name  = contactList.get(position).getName();
-            String phone = contactList.get(position).getPhone();
-            String avatar = contactList.get(position).getPhoto();
+            final String name  = contactList.get(position).getName();
+            final String phone = contactList.get(position).getPhone();
+            final String avatar = contactList.get(position).getPhoto();
             edtname.setText(name);
             edtphone.setText(phone);
             edtavatar.setText(avatar);
@@ -166,6 +169,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
                     } else {
                         database.UpdateData(edtname.getText().toString(), edtphone.getText().toString(), edtavatar.getText().toString(), id);
                         Toast.makeText(context, "Đã thay đổi thành công", Toast.LENGTH_SHORT).show();
+                        Contact contact = new Contact(id,
+                                edtname.getText().toString(),
+                                edtphone.getText().toString(),
+                                edtavatar.getText().toString());
+                        contactList.set(position, contact);
+                        notifyItemChanged(position);
                     }
 
                 }
