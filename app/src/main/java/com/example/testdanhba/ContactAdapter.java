@@ -1,12 +1,13 @@
 package com.example.testdanhba;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,23 +20,20 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
+public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> implements Filterable {
     danhsach context;
     List<Contact> contactList;
-    ArrayList arrid, arrten, arrphone, arravatar;
+    List<Contact> contactListfull;
     DanhBaCLickInterfact danhBaCLickInterfact;
+    Database database;
 
-    public  ContactAdapter(danhsach context, List<Contact> contactList){
+    public  ContactAdapter(danhsach context, List<Contact> contactList, DanhBaCLickInterfact danhBaCLickInterfact) {
         this.context = context;
         this.contactList = contactList;
+        this.danhBaCLickInterfact = danhBaCLickInterfact;
+        contactListfull = new ArrayList<>(contactList);
     }
-    public  ContactAdapter(danhsach context, ArrayList arrid, ArrayList arrten, ArrayList arrphone, ArrayList arravatar){
-        this.context = context;
-        this.arrid = arrid;
-        this.arrten = arrten;
-        this.arrphone = arrphone;
-        this.arravatar = arravatar;
-    }
+
     @NonNull
     @Override
     public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -61,12 +59,21 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
                 context.startActivity(intent);
             }
         });
+
         holder.btndel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Delete", Toast.LENGTH_SHORT).show();
+                database = new Database(context);
+                Toast.makeText(context, "Delete Success: " + contactList.get(position).getId(), Toast.LENGTH_SHORT).show();
+                database.DeleteData(contactList.get(position).getId());
+                remove(position);
             }
         });
+    }
+
+    public void remove(int pos){
+        contactList.remove(pos);
+        notifyItemRemoved(pos);
     }
 
     @Override
@@ -74,10 +81,42 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         return contactList.size();
     }
 
-    public class ContactViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Contact> listFilter = new ArrayList<>();
+            if (charSequence == null || charSequence.length() == 0){
+                listFilter.addAll(contactListfull);
+            }else{
+                String filterPatern = charSequence.toString().toLowerCase().trim();
+                for (Contact item : contactListfull){
+                    if(item.getName().toLowerCase().contains(filterPatern)){
+                        listFilter.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = listFilter;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults results) {
+            contactList.clear();
+            contactList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+    public class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView edtten, edtsdt;
         ImageView photo;
         Button btncall, btndel;
+
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
             edtten = itemView.findViewById(R.id.txtten);
@@ -85,6 +124,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             photo = itemView.findViewById(R.id.imageview);
             btncall = itemView.findViewById(R.id.btngoidien);
             btndel = itemView.findViewById(R.id.btnxoa);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            danhBaCLickInterfact.onItemClick(position);
         }
     }
 }

@@ -12,6 +12,11 @@
     <item android:id="@+id/itemthoat"
         android:title="Thoát"
         app:showAsAction="never"/>
-
+    <item android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:title="Search"
+        app:showAsAction="ifRoom"
+        app:actionViewClass="android.widget.SearchView"
+        />
 
 </menu>

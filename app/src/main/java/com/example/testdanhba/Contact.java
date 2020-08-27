@@ -10,9 +10,6 @@ public class Contact implements Comparable<Contact> {
     private String name;
     private String phone;
     private String photo;
-    public Contact(){
-
-    }
 
     public Contact(String id, String name, String phone, String photo) {
         this.id = id;
