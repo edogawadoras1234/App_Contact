@@ -1,11 +1,13 @@
 package com.example.testdanhba;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -40,9 +42,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         View view = LayoutInflater.from(context).inflate(R.layout.item_row, parent, false);
         return new ContactViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, final int position) {
+
         holder.edtten.setText(String.valueOf(contactList.get(position).getName()));
         holder.edtsdt.setText(String.valueOf(contactList.get(position).getPhone()));
         final String anh = contactList.get(position).getPhoto();
@@ -129,8 +131,46 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
         @Override
         public void onClick(View view) {
+            database = new Database(context);
             int position = getAdapterPosition();
             danhBaCLickInterfact.onItemClick(position);
+            final Dialog dialog = new Dialog(context);
+            dialog.setContentView(R.layout.dialog_edit_phone);
+            final EditText edtname, edtphone, edtavatar;
+            Button btnaccept, btncancle;
+            edtname = dialog.findViewById(R.id.editName_dialog);
+            edtphone = dialog.findViewById(R.id.editPhone_dialog);
+            edtavatar = dialog.findViewById(R.id.editAvatar_dialog);
+            final String id = contactList.get(position).getId();
+            String name  = contactList.get(position).getName();
+            String phone = contactList.get(position).getPhone();
+            String avatar = contactList.get(position).getPhoto();
+            edtname.setText(name);
+            edtphone.setText(phone);
+            edtavatar.setText(avatar);
+
+            btnaccept = dialog.findViewById(R.id.btnchange_dgl_change);
+            btncancle = dialog.findViewById(R.id.btncl_dgl_change);
+
+            btncancle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            btnaccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (edtphone.length() == 0) {
+                        Toast.makeText(context, "Không được bỏ trống số điện thoại", Toast.LENGTH_SHORT).show();
+                    } else {
+                        database.UpdateData(edtname.getText().toString(), edtphone.getText().toString(), edtavatar.getText().toString(), id);
+                        Toast.makeText(context, "Đã thay đổi thành công", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+            dialog.show();
         }
     }
 }

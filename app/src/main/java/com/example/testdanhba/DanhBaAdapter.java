@@ -85,8 +85,6 @@ public class DanhBaAdapter extends RecyclerView.Adapter<DanhBaAdapter.DanhBaView
         return arrten.size();
     }
 
-
-
     public class DanhBaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView edtten, edtsdt;
         ImageView photo;

@@ -87,7 +87,7 @@ public class danhsach extends AppCompatActivity implements DanhBaCLickInterfact 
         danhBaCLickInterfact = new DanhBaCLickInterfact() {
             @Override
             public void onItemClick(int position) {
-                DialogSua();
+               // DialogSua();
             }
         };
         database = new Database(danhsach.this);
@@ -204,38 +204,7 @@ public class danhsach extends AppCompatActivity implements DanhBaCLickInterfact 
 
     public void DialogSua() {
 
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_edit_phone);
-        final EditText edtname, edtphone, edtavatar;
-        Button btnaccept, btncancle;
-        edtname = dialog.findViewById(R.id.editName_dialog);
-        edtphone = dialog.findViewById(R.id.editPhone_dialog);
-        edtavatar = dialog.findViewById(R.id.editAvatar_dialog);
-        edtname.setText(caigido.toString());
 
-        btnaccept = dialog.findViewById(R.id.btnchange_dgl_change);
-        btncancle = dialog.findViewById(R.id.btncl_dgl_change);
-
-        btncancle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        btnaccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (edtphone.length() == 0) {
-                    Toast.makeText(danhsach.this, "Không được bỏ trống số điện thoại", Toast.LENGTH_SHORT).show();
-                } else {
-                   // database.UpdateData(edtname.getText().toString(), edtphone.getText().toString(), edtavatar.getText().toString(), idload);
-                    Toast.makeText(danhsach.this, "Đã thay đổi thành công", Toast.LENGTH_SHORT).show();
-                   loaddata();
-                }
-
-            }
-        });
-        dialog.show();
     }
 
     public void remove(int position) {
