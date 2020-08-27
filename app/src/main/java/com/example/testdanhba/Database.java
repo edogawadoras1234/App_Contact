@@ -15,10 +15,11 @@ import androidx.annotation.Nullable;
 public class Database extends SQLiteOpenHelper {
 
     private Context context;
-    private static final  String DATABASE_NAME = "MyContacts.db";
+    private static final  String DATABASE_NAME = "MyContacts1.db";
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_NAME = "DanhBa";
+    private static final String COLUMN_ID = "Id";
     private static final String COLUMN_NAME = "Name";
     private static final String COLUMN_PHONE = "Phone";
     private static final String COLUMN_AVATAR = "Avatar";
@@ -29,14 +30,15 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-    public Integer DeleteData(String phone){
+    public Integer DeleteData(String id){
         SQLiteDatabase database = this.getWritableDatabase();
-        return database.delete(TABLE_NAME,"Phone =?",new String[]{phone});
+        return database.delete(TABLE_NAME,"Id =?",new String[]{id});
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME + "(" +
+                COLUMN_ID + " TEXT PRIMARY KEY, " +
                 COLUMN_NAME + " TEXT, " +
                 COLUMN_PHONE + " TEXT, " +
                 COLUMN_AVATAR + " TEXT)";
@@ -49,18 +51,18 @@ public class Database extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addData(String name, String phone, String avatar){
+    void addData(String id, String name, String phone, String avatar){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-
+        cv.put(COLUMN_ID,id);
         cv.put(COLUMN_NAME,name);
         cv.put(COLUMN_PHONE, phone);
         cv.put(COLUMN_AVATAR, avatar);
         long  result = db.insert(TABLE_NAME, null, cv);
     }
-    Cursor finddata(String name){
+    Cursor finddata(String id){
         SQLiteDatabase database = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE Name ='" + name + "'";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE Id ='" + id + "'";
         Cursor cursor = null;
         if (database != null){
             cursor = database.rawQuery(query, null);
@@ -68,10 +70,10 @@ public class Database extends SQLiteOpenHelper {
         return cursor;
 
     }
-    void UpdateData(String name, String phone, String avatar){
+    void UpdateData(String name, String phone, String avatar,String id){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "UPDATE " + TABLE_NAME + " SET Phone= '" + phone
-                +"', Avatar = '"+ avatar + "' Where Name = '" + name + "'";
+        String query = "UPDATE " + TABLE_NAME + " SET Name= '" + name
+                +"', Phone = '"+ phone + "', Avatar = '" + avatar + "' Where Id = '" + id + "'";
         db.execSQL(query);
 
 

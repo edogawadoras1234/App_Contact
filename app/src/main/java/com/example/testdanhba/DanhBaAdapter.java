@@ -2,10 +2,12 @@ package com.example.testdanhba;
 
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.Transliterator;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,31 +15,42 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.net.CookieHandler;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-public class DanhBaAdapter extends RecyclerView.Adapter<DanhBaAdapter.DanhBaViewHolder> {
-    phone context;
-    ArrayList arrten, arrphone, arravatar;
+public class DanhBaAdapter extends RecyclerView.Adapter<DanhBaAdapter.DanhBaViewHolder>  {
+    danhsach context;
+    final ArrayList arrid, arrten, arrphone, arravatar;
     Database database;
     DanhBaCLickInterfact danhBaCLickInterfact;
+    List<Contact> contactList;
 
-    public  DanhBaAdapter(phone context, ArrayList arrten, ArrayList arrphone, ArrayList arravatar, DanhBaCLickInterfact danhBaCLickInterfact){
+
+    public  DanhBaAdapter(danhsach context, ArrayList arrid, ArrayList arrten, ArrayList arrphone, ArrayList arravatar, DanhBaCLickInterfact danhBaCLickInterfact){
         this.context = context;
+        this.arrid = arrid;
         this.arrten = arrten;
         this.arrphone = arrphone;
         this.arravatar = arravatar;
         this.danhBaCLickInterfact = danhBaCLickInterfact;
     }
+
     @NonNull
     @Override
     public DanhBaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_database, parent, false);
         return new DanhBaViewHolder(view);
+    }
+    public void remove(int pos){
+        arrten.remove(pos);
+        notifyItemRemoved(pos);
     }
 
     @Override
@@ -58,15 +71,18 @@ public class DanhBaAdapter extends RecyclerView.Adapter<DanhBaAdapter.DanhBaView
                 context.startActivity(intent);
             }
         });
+        final String id = String.valueOf(arrid.get(position));
         holder.btndel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 database = new Database(context);
                 Toast.makeText(context, "Delete Success: " + String.valueOf(arrten.get(position)), Toast.LENGTH_SHORT).show();
-                database.DeleteData(sdt);
-                context.loaddata();
+                database.DeleteData(id);
+                remove(position);
+                //context.loaddata();
             }
         });
+
     }
 
     @Override
@@ -74,10 +90,13 @@ public class DanhBaAdapter extends RecyclerView.Adapter<DanhBaAdapter.DanhBaView
         return arrten.size();
     }
 
-    public class DanhBaViewHolder extends RecyclerView.ViewHolder {
+
+
+    public class DanhBaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView edtten, edtsdt;
         ImageView photo;
         Button btncall, btndel;
+
         public DanhBaViewHolder(@NonNull View itemView) {
             super(itemView);
             edtten = itemView.findViewById(R.id.txttendb);
@@ -86,13 +105,13 @@ public class DanhBaAdapter extends RecyclerView.Adapter<DanhBaAdapter.DanhBaView
             btncall = itemView.findViewById(R.id.btngoidiendb);
             btndel = itemView.findViewById(R.id.btnxoadb);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    danhBaCLickInterfact.onItemClick(getAdapterPosition());
-                    context.DialogSua();
-                }
-            });
+           itemView.setOnClickListener(this);
+        }
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            danhBaCLickInterfact.onItemClick(position);
+
         }
     }
 }

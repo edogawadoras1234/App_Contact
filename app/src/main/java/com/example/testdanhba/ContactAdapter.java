@@ -16,15 +16,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
-    Context context;
+    danhsach context;
     List<Contact> contactList;
+    ArrayList arrid, arrten, arrphone, arravatar;
+    DanhBaCLickInterfact danhBaCLickInterfact;
 
-    public  ContactAdapter(Context context, List<Contact> contactList){
+    public  ContactAdapter(danhsach context, List<Contact> contactList){
         this.context = context;
         this.contactList = contactList;
+    }
+    public  ContactAdapter(danhsach context, ArrayList arrid, ArrayList arrten, ArrayList arrphone, ArrayList arravatar){
+        this.context = context;
+        this.arrid = arrid;
+        this.arrten = arrten;
+        this.arrphone = arrphone;
+        this.arravatar = arravatar;
     }
     @NonNull
     @Override
@@ -75,7 +85,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             photo = itemView.findViewById(R.id.imageview);
             btncall = itemView.findViewById(R.id.btngoidien);
             btndel = itemView.findViewById(R.id.btnxoa);
-
         }
     }
 }

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import java.util.Comparator;
 
 public class Contact implements Comparable<Contact> {
+    private String id;
     private String name;
     private String phone;
     private String photo;
@@ -13,10 +14,19 @@ public class Contact implements Comparable<Contact> {
 
     }
 
-    public Contact(String name, String phone, String photo) {
+    public Contact(String id, String name, String phone, String photo) {
+        this.id = id;
         this.name = name;
         this.phone = phone;
         this.photo = photo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

@@ -18,6 +18,7 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,13 +37,14 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class phone extends AppCompatActivity implements DanhBaCLickInterfact {
+public class phone extends AppCompatActivity {
     Database database;
     RecyclerView rvDanhBa;
     DanhBaAdapter danhBaAdapter;
-    ArrayList arrname,arrphone,arravatar;
+    ArrayList arrid, arrname,arrphone,arravatar;
     SwipeRefreshLayout swipeRefreshLayout;
     DanhBaCLickInterfact danhBaCLickInterfact;
+    List<Contact> contactList;
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,43 +60,48 @@ public class phone extends AppCompatActivity implements DanhBaCLickInterfact {
         rvDanhBa.addItemDecoration(deviderItemDecoration);
         getSupportActionBar().setTitle("Danh Bạ Database");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        loaddata();
-        swiptorefresh();
+//        loaddata();
+//        swiptorefresh();
+
     }
+
     //load lai du lieu tu database len
-    public void loaddata(){
-        database = new Database(phone.this);
-        arrname = new ArrayList<>();
-        arrphone = new ArrayList<>();
-        arravatar = new ArrayList<>();
-        Cursor cursor = database.readAllData();
-        if (cursor.getCount() == 0){
-            Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
-        } else {
-            while (cursor.moveToNext()){
-                arrname.add(cursor.getString(0));
-                arrphone.add(cursor.getString(1));
-                arravatar.add(cursor.getString(2));
-                danhBaAdapter= new DanhBaAdapter(phone.this, arrname, arrphone, arravatar,this);
-            }
-            rvDanhBa.setAdapter(danhBaAdapter);
-            danhBaAdapter.notifyDataSetChanged();
-        }
-    }
-   
-    public void swiptorefresh(){
-        swipeRefreshLayout = findViewById(R.id.swiperefresh);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-                Toast.makeText(phone.this, "Refresh", Toast.LENGTH_SHORT).show();
-                //load lai database
-                loaddata();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-    }
+//    public void loaddata(){
+//        database = new Database(phone.this);
+//        arrid = new ArrayList<>();
+//        arrname = new ArrayList<>();
+//        arrphone = new ArrayList<>();
+//        arravatar = new ArrayList<>();
+//        Cursor cursor = database.readAllData();
+//        if (cursor.getCount() == 0){
+//            Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
+//        } else {
+//            while (cursor.moveToNext()){
+//                arrid.add(cursor.getString(0));
+//                arrname.add(cursor.getString(1));
+//                arrphone.add(cursor.getString(2));
+//                arravatar.add(cursor.getString(3));
+//                danhBaAdapter= new DanhBaAdapter((danhsach) getApplicationContext(),arrid, arrname, arrphone, arravatar);
+//            }
+//            rvDanhBa.setAdapter(danhBaAdapter);
+//            danhBaAdapter.notifyDataSetChanged();
+//        }
+//    }
+//
+//    public void swiptorefresh(){
+//        swipeRefreshLayout = findViewById(R.id.swiperefresh);
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+//                Toast.makeText(phone.this, "Refresh", Toast.LENGTH_SHORT).show();
+//                //load lai database
+//                loaddata();
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        });
+//    }
+    String ten, idd, sdtt, avatarr;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -135,42 +142,49 @@ public class phone extends AppCompatActivity implements DanhBaCLickInterfact {
         }
         return super.onOptionsItemSelected(item);
     }
-    @Override
-    public void onItemClick(int position) {
-        String ten = (String) arrname.get(position);
-        Toast.makeText(this, "" + arrname.get(position), Toast.LENGTH_SHORT).show();
-    }
-    public void DialogSua() {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_edit_phone);
-        final EditText edtname, edtphone, edtavatar;
-        Button btnaccept, btncancle;
-        edtname = dialog.findViewById(R.id.editName_dialog);
-        edtphone = dialog.findViewById(R.id.editPhone_dialog);
-        edtavatar = dialog.findViewById(R.id.editAvatar_dialog);
-
-            btnaccept = dialog.findViewById(R.id.btnchange_dgl_change);
-            btncancle = dialog.findViewById(R.id.btncl_dgl_change);
-
-            btncancle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            btnaccept.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (edtphone.length() == 0) {
-                        Toast.makeText(phone.this, "Không được bỏ trống số điện thoại", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        database.UpdateData(edtname.getText().toString(), edtphone.getText().toString(), edtavatar.getText().toString());
-                        Toast.makeText(phone.this, "Đã thay đổi thành công", Toast.LENGTH_SHORT).show();
-                    }
-                    loaddata();
-                }
-            });
-            dialog.show();
-        }
+//    @Override
+//    public void onItemClick(int position) {
+//        DialogSua();
+//        ten = (String) arrname.get(position);
+//        idd = (String) arrid.get(position);
+//        sdtt = (String) arrphone.get(position);
+//        avatarr = (String ) arravatar.get(position);
+//        Toast.makeText(this, "" + arrname.get(position), Toast.LENGTH_SHORT).show();
+//    }
+//    public void DialogSua() {
+//        final Dialog dialog = new Dialog(this);
+//        dialog.setContentView(R.layout.dialog_edit_phone);
+//        final EditText edtname, edtphone, edtavatar;
+//        Button btnaccept, btncancle;
+//        edtname = dialog.findViewById(R.id.editName_dialog);
+//        edtphone = dialog.findViewById(R.id.editPhone_dialog);
+//        edtavatar = dialog.findViewById(R.id.editAvatar_dialog);
+//
+//        edtname.setText(ten);
+//        edtphone.setText(sdtt);
+//        edtavatar.setText(avatarr);
+//            btnaccept = dialog.findViewById(R.id.btnchange_dgl_change);
+//            btncancle = dialog.findViewById(R.id.btncl_dgl_change);
+//
+//            btncancle.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            btnaccept.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    if (edtphone.length() == 0) {
+//                        Toast.makeText(phone.this, "Không được bỏ trống số điện thoại", Toast.LENGTH_SHORT).show();
+//                    }
+//                    else {
+//                        database.UpdateData(edtname.getText().toString(), edtphone.getText().toString(), edtavatar.getText().toString(), idd);
+//                        Toast.makeText(phone.this, "Đã thay đổi thành công", Toast.LENGTH_SHORT).show();
+//                    }
+//                    loaddata();
+//                }
+//            });
+//            dialog.show();
+//        }
     }

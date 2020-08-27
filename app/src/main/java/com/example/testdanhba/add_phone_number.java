@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class add_phone_number extends AppCompatActivity implements View.OnClickListener {
     Button btnadd, btncancle;
-    EditText edtname, edtphone, edtavatar;
+    EditText edtid, edtname, edtphone, edtavatar;
     Database database;
     ContentValues val = new ContentValues();
     @Override
@@ -23,7 +23,7 @@ public class add_phone_number extends AppCompatActivity implements View.OnClickL
         edtname = findViewById(R.id.edtname);
         edtphone = findViewById(R.id.edtphone);
         edtavatar = findViewById(R.id.edtavata);
-
+        edtid = findViewById(R.id.edtid);
         btnadd = findViewById(R.id.btnadd);
         btncancle = findViewById(R.id.btncancle);
         btnadd.setOnClickListener(this);
@@ -44,7 +44,7 @@ public class add_phone_number extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Không được bỏ trống Tên hoặc số điện thoại", Toast.LENGTH_SHORT).show();
         }
         else {
-            database.addData(edtname.getText().toString(), edtphone.getText().toString(), edtavatar.getText().toString());
+            database.addData(edtid.getText().toString(),edtname.getText().toString(), edtphone.getText().toString(), edtavatar.getText().toString());
             database.readAllData();
             Toast.makeText(this, "Add Success", Toast.LENGTH_SHORT).show();
         }

@@ -3,64 +3,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="400dp"
     android:background="@drawable/icon_add_page"
     tools:context=".add_phone_number">
 
-    <EditText
-        android:id="@+id/edtname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:ems="10"
-        android:textColor="@color/white"
-        android:hint="Name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.577"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnadd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="108dp"
-        android:text="Add"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btncancle"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/edtphone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:ems="10"
-        android:hint="Phone Number"
-        app:layout_constraintStart_toStartOf="@+id/edtname"
-        app:layout_constraintTop_toBottomOf="@+id/edtname" />
 
     <EditText
         android:id="@+id/edtavata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="22dp"
         android:ems="10"
         android:hint="Avatar"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/edtphone"
         app:layout_constraintTop_toBottomOf="@+id/edtphone" />
+
+    <EditText
+        android:id="@+id/edtname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/edtid"
+        app:layout_constraintTop_toBottomOf="@+id/edtid" />
 
     <Button
         android:id="@+id/btncancle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginEnd="108dp"
+        android:layout_marginBottom="4dp"
         android:text="Cancle"
-        app:layout_constraintStart_toEndOf="@+id/btnadd"
-        app:layout_constraintTop_toBottomOf="@+id/edtavata"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/edtid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:hint="ID"
+
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtphone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="31dp"
+        android:ems="10"
+        android:hint="Phone Number"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/edtname"
+        app:layout_constraintTop_toBottomOf="@+id/edtname" />
+
+    <Button
+        android:id="@+id/btnadd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginBottom="4dp"
+        android:text="Add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btncancle" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
