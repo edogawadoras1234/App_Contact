@@ -13,9 +13,8 @@ import android.widget.Toast;
 
 public class add_phone_number extends AppCompatActivity implements View.OnClickListener {
     Button btnadd, btncancle;
-    EditText edtid, edtname, edtphone, edtavatar;
+    EditText edtname, edtphone, edtavatar;
     Database database;
-    ContentValues val = new ContentValues();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +22,6 @@ public class add_phone_number extends AppCompatActivity implements View.OnClickL
         edtname = findViewById(R.id.edtname);
         edtphone = findViewById(R.id.edtphone);
         edtavatar = findViewById(R.id.edtavata);
-        edtid = findViewById(R.id.edtid);
         btnadd = findViewById(R.id.btnadd);
         btncancle = findViewById(R.id.btncancle);
         btnadd.setOnClickListener(this);
@@ -44,8 +42,7 @@ public class add_phone_number extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Không được bỏ trống Tên hoặc số điện thoại", Toast.LENGTH_SHORT).show();
         }
         else {
-            database.addData(edtid.getText().toString(),edtname.getText().toString(), edtphone.getText().toString(), edtavatar.getText().toString());
-            database.readAllData();
+            database.addData(null,edtname.getText().toString(), edtphone.getText().toString(), edtavatar.getText().toString());
             Toast.makeText(this, "Add Success", Toast.LENGTH_SHORT).show();
         }
         }else if (view.getId() == R.id.btncancle){

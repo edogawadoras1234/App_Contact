@@ -92,7 +92,7 @@ public class danhsach extends AppCompatActivity implements DanhBaCLickInterfact 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             database = new Database(danhsach.this);
-            Toast.makeText(danhsach.this, "Delete Success: " + contactList.get(viewHolder.getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(danhsach.this, "Delete Success: " + contactList.get(viewHolder.getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
             database.DeleteData(contactList.get(viewHolder.getAdapterPosition()).getId());
             remove(viewHolder.getAdapterPosition());
         }
@@ -218,9 +218,9 @@ public class danhsach extends AppCompatActivity implements DanhBaCLickInterfact 
         builder.show();
     }
 
-    Integer it;
+
     @Override
     public void onItemClick(int position) {
-        it = position;
+
     }
 }

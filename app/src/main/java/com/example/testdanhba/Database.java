@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 public class Database extends SQLiteOpenHelper {
 
     private Context context;
-    private static final  String DATABASE_NAME = "MyContacts1.db";
+    private static final  String DATABASE_NAME = "DanhBa.db";
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_NAME = "DanhBa";
@@ -34,11 +34,15 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         return database.delete(TABLE_NAME,"Id =?",new String[]{id});
     }
+    public Integer DeleteDataName(String name){
+        SQLiteDatabase database = this.getWritableDatabase();
+        return database.delete(TABLE_NAME,"Name =?",new String[]{name});
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME + "(" +
-                COLUMN_ID + " TEXT PRIMARY KEY, " +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT, " +
                 COLUMN_PHONE + " TEXT, " +
                 COLUMN_AVATAR + " TEXT)";
